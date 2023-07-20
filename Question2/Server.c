@@ -32,18 +32,20 @@ int main() {
         exit(EXIT_FAILURE);
     }
     printf("Server connecting to port %d\n", PORT);
-    int random_number = generate_random_number();
-    printf("Generated random number: %d\n", random_number);
     while (1) {
+        int random_number = generate_random_number();
+        printf("Generated random number: %d\n", random_number);
         // Accept a new connection
-        if ((new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen)) < 0) {
+        if ((new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t *)&addrlen)) < 0) {
             perror("Accept failed");
             exit(EXIT_FAILURE);
         }
+        // Send the random number to the client
         send(new_socket, &random_number, sizeof(random_number), 0);
         printf("Random number %d sent to the client.\n", random_number);
-
-        close(new_socket);
-    }
+        // Close the connection with the current client
+        close(new_socket); 
+   }
     close(server_fd);
     return 0;
+}
