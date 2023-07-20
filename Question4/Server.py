@@ -10,6 +10,7 @@ AlQuran_verses = [
 ]
 def handle_client(client_socket):
     quote = random.choice(AlQuran_verses)
+   print("The verse that will be sent to the client:", quote)
     client_socket.send(quote.encode('utf-8'))
     client_socket.close()
 def main():
