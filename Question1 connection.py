@@ -1,29 +1,20 @@
 import socket
-
 def main():
-    host = "izani.synology.me"
-    port = 8443
-
+    server_ip = "izani.synology.me"
+    server_port = 8443
+    student_id = input("Enter your UiTM Student ID: ")
     try:
+        # Create a TCP socket
         client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-        client_socket.connect((host, port))
-
-        student_id = "2021530085" 
-        client_socket.sendall(student_id.encode())
-
-        response = client_socket.recv(1024).decode()
-
-        print("Received unique URL from the server:", response)
-
-    except ConnectionRefusedError:
-        print("Connection to the server refused. Please check the hostname and port.")
-    except Exception as e:
-        print("An error occurred:", str(e))
-    finally:
-        
+        client_socket.connect((server_ip, server_port))
+        client_socket.send(student_id.encode())
+        # Read the server response
+        server_response = client_socket.recv(1024).decode()
+        print("Server response:", server_response)
+        # Close the connection
         client_socket.close()
-
+    except Exception as e:
+        print("Error:", e)
 if __name__ == "__main__":
     main()
 
